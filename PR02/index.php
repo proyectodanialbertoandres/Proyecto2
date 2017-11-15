@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>LogIn</title>
+	<title>Login</title>
 	<script src="js/validar_form.js" type="text/javascript" charset="utf-8" async defer></script>
+	<link rel="stylesheet" type="text/css" href="css/login.css"/>
 </head>
 <body>
 
@@ -29,12 +30,13 @@
 
 
 	?>
-
-	<form action="login.proc.php" method="get" accept-charset="utf-8">
-		Usuario: <input type="text" name="user"  required onkeypress="return letras(event)"><br><br>
-		Password: <input type="password" name="pass" required onkeypress="return letras_numeros(event)"><br><br>
-		<input type="submit" value="Entrar">
+	<div class="login">
+	<h1>Login</h1>	
+	<form action="login.proc.php" method="post" accept-charset="utf-8">
+		<input type="text" name="user" placeholder="Usuario"  required onkeypress="return letras(event)"><br><br>
+		<input type="password" placeholder="Contraseña" name="pass" required onkeypress="return letras_numeros(event)"><br><br>
+		<button type="submit" class="btn btn-primary btn-block btn-large" value="Entrar">Entrar</button>
 	</form>
-	
+	</div>
 </body>
 </html>

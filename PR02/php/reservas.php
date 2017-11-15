@@ -7,7 +7,7 @@ $conexion=mysqli_connect("localhost", "root", "", "1718_projecte_2");
 	    exit;
 	} else {
 		if (!isset($_REQUEST['reserva'])) {
-			echo "No hay datos que mostrar";
+			echo "No hay datos selecionados para hacer la reserva</br>";
 			}else{
 			$reserva=$_REQUEST['reserva'];
 			foreach ($reserva as $reserva) {
@@ -15,7 +15,7 @@ $conexion=mysqli_connect("localhost", "root", "", "1718_projecte_2");
 			}
 		}
 		if(!isset($_REQUEST['dejar_disponible'])){
-			echo "No hay datos que mostrar";
+			echo "No hay datos seleccionados para dejar disponible el recurso";
 			}else{
 			$dejar_disponible=$_REQUEST['dejar_disponible'];
 		 	foreach ($dejar_disponible as $dejar_disponible) {
