@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-11-2017 a las 10:09:28
+-- Tiempo de generación: 16-11-2017 a las 09:20:58
 -- Versión del servidor: 10.1.16-MariaDB
 -- Versión de PHP: 5.6.24
 
@@ -40,21 +40,21 @@ CREATE TABLE `tbl_recurso` (
 --
 
 INSERT INTO `tbl_recurso` (`Id_Recurso`, `Nombre_Recurso`, `Descripcion_Recurso`, `Fotos_Recurso`, `Tipo_Recurso`, `Disponibilidad_Recurso`) VALUES
-(1, 'AulaA ', 'Aula A sin proyector', 'aulaA.jpg', 'Aula', 'No'),
-(2, 'AulaB', 'Aula B con proyector', 'aulaB.jpg', 'Aula con material informático', 'Si'),
-(3, 'AulaC', 'Aula C con proyector', 'aulaC.jpg', 'Aula con material informático', 'Si'),
+(1, 'AulaA ', 'Aula A sin proyector, ocupación para 50 alumnos', 'aulaA.jpg', 'Aula', 'No'),
+(2, 'AulaB', 'Aula B con proyector, ocupación para 40 alumnos', 'aulaB.jpg', 'Aula con material informático', 'Si'),
+(3, 'AulaC', 'Aula C con proyector, disponibilidad para 17 alumnos.', 'aulaC.jpg', 'Aula con material informático', 'Si'),
 (4, 'AulaInformaticaA', 'Aula Informática A con 30 ordenadores', 'infoA.jpg', 'Aula con material informático', 'Si'),
 (5, 'AulaInformaticaB', 'Aula Informática B con 15 ordenadores', 'infoB.jpg', 'Aula con material informático', 'Si'),
-(6, 'DespachoEntrevistaA', 'Despacho para hacer entrevistas de trabajo para el personal de administración', 'despA.jpg', 'Aula', 'Si'),
-(7, 'DespachoEntrevistaB', 'Despacho para hacer entrevistas de trabajo para toda la empresa.', 'despB.jpg', 'Aula', 'Si'),
+(6, 'DespachoEntrevistaA', 'Despacho para entrevistas de trabajo, para contratar al personal', 'despA.jpg', 'Aula', 'No'),
+(7, 'DespachoEntrevistaB', 'Despacho para reuniones de profesores', 'despB.jpg', 'Aula', 'Si'),
 (8, 'SalaReunion', 'Sala para hacer reuniones del departamento.', 'sala.jpg', 'Aula', 'Si'),
-(9, 'Proyector', 'Proyector portatil Epson EB 98H ', 'proyector.jpg', 'Material informático', 'Si'),
+(9, 'Proyector', 'Proyector portátil Epson EB 98H, (proyector portátil )', 'proyector.jpg', 'Material informático', 'Si'),
 (10, 'CarroPortatiles', 'Carro de portátiles con 15 ordenadores', 'carro.jpg', 'Material informático', 'Si'),
-(11, 'PortatilA', 'Lenovo i7', 'lenovo.jpg', 'Material informático', 'Si'),
-(12, 'PortatilB', 'Asus i5', 'asus.jpg', 'Material informático', 'Si'),
-(13, 'PortatilC', 'HP i3', 'hp.jpg', 'Material informático', 'Si'),
-(14, 'MobilA', 'Iphone 8', 'iphone.jpg', 'Material informático', 'Si'),
-(15, 'MobilB', 'Xiaomi MI5', 'xiaomi.jpg', 'Material informático', 'Si');
+(11, 'PortatilA', 'lenovo i7 8GB Ram 1TB disco duro y pantalla de 15''6"', 'lenovo.jpg', 'Material informático', 'Si'),
+(12, 'PortatilB', 'asus i5 6GB Ram 500GB de disco duro y pantalla de 13"', 'asus.jpg', 'Material informático', 'Si'),
+(13, 'PortatilC', 'Hp i3 2GB Ram 500GB de disco duro y pantalla de 15.6" ', 'hp.jpg', 'Material informático', 'Si'),
+(14, 'MobilA', 'Apple Iphone 8 128GB Gris Espacial, pantalla 4,7"', 'iphone.jpg', 'Material informático', 'Si'),
+(15, 'MobilB', 'Xiaomi Mi5 3GB Ram 64GB Rom, pantalla de 5,2"', 'xiaomi.jpg', 'Material informático', 'Si');
 
 -- --------------------------------------------------------
 

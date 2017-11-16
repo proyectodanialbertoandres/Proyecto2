@@ -16,22 +16,21 @@
 			//Introducimos en una variable los valores que recibimos desde index.php
 			$user = $_REQUEST['user'];
 			$passwd = $_REQUEST['pass'];
-			$nombre=$_REQUEST['nombre'];
-			$apellido1=$_REQUEST['apellido1'];
-			$apellido2=$_REQUEST['apellido2'];
+			
 			//Creamos la consulta con las variables y la introducimos en otra variable
 			$sql = "SELECT * FROM tbl_user WHERE Login_Usuario = '$user' AND  Password_Usuario = '$passwd'";
 
 			//Lanzamos la consulta
 			$login=mysqli_query($conexion, $sql);
-			$nam=mysqli_query($conexion, $nam);
+			
 			//Comprobamos si la consulta nos devuelve algo
 			
 			if(mysqli_num_rows($login)>0){
 
 				//Si la consulta nos devuelve algo redirigimos al usuario a la página correspondiente
+				$id_user = mysqli_fetch_array($login);
 
-				header("location: php/home.php?user=$user");
+				header("location: php/home.php?user=$user&&id_user=$id_user[Id_Usuario]");
 
 
 			} else {

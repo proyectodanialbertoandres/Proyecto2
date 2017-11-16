@@ -7,6 +7,7 @@
 	<body>	
 			<?php 
 			$conexion=mysqli_connect("localhost", "root", "", "1718_projecte_2");
+			$acentos = mysqli_query($conexion, "SET NAMES 'utf8'");
 			if(!$conexion){
 			    echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
 			    echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
@@ -19,9 +20,10 @@
 					$consulta=mysqli_query($conexion,$nombre);
 					$numero = mysqli_num_rows($consulta);
 					while ($valor = mysqli_fetch_array($consulta)) {
-						//Damos la bienvenida al usuario.
-						echo '<h2>Bienvenido '.utf8_encode($valor['Nombre_Usuario']).' '.utf8_encode($valor['Apellido1_Usuario']).' '.utf8_encode($valor['Apellido2_Usuario']).'</h2>';
-					}
+					
+					//Damos la bienvenida al usuario.
+					echo '<h2>Bienvenido '.$valor['Nombre_Usuario'].' '.$valor['Apellido1_Usuario'].' '.$valor['Apellido2_Usuario'].' '.'<button class="btn-success"><a style="text-decoration:none;color:white;(otros)" href="../index.php">Salir sesión</a></button>'.'</h2>';
+					}	
 				}
 			?>
 			<form action="home.php?user=<?php echo "$user" ?>">
@@ -36,53 +38,78 @@
 		   	<select name="tiporecurso">
 		   		<option value="" selected="selected">Tipo de recurso:</option>    
 		       	<option value="Aula">Aula</option>
-		       	<option value="Aula con material informático">Aula con proyector</option>
+		       	<option value="Aula con material informático">Aula con material informático</option>
 		       	<option value="Material informático">Material informático</option>
 		   	</select>
 		   </div>
 		   	</br></br></br></br></br>		   
 		   	<input type="hidden" name="user" value="<?php echo "$user" ?>">
-		   	<button type="submit" name="enviar" value="enviar ">Enviar</button>
-		   	<button><a style='text-decoration:none;color:black;(otros)' <?php  echo "href='home.php?user=$user'" ?>>Resetear Valores</a></button></br></br>
+		   	<input type="hidden" name="id_user" value="<?php echo "$id_user" ?>">
+		   	<button type="submit" name="enviar" value="enviar " class="btn-success">Enviar</button>
+		   	<button class="btn-success"><a style='text-decoration:none;color:white;(otros)' <?php  echo "href='home.php?user=$user'" ?>>Resetear Valores</a></button></br></br>
 		   </div>
-		   	</form>  	
+		   	</form>
+
+
+
 			<?php
+
+
 			//Filtro
+
 			$q=("SELECT * FROM tbl_recurso");
-			$consulta=mysqli_query($conexion,$q);
+			$cont= false;
+			
+			
 			if (isset($_REQUEST['enviar'])) {
-			$disponibilidad=$_REQUEST['disponibilidad'];
-			$tiporecurso=$_REQUEST['tiporecurso'];
-			$q=("SELECT * FROM tbl_recurso");
-			$filtro=("WHERE `Disponibilidad_Recurso`= '$disponibilidad' AND `Tipo_Recurso`='$tiporecurso'");
-			$qfiltro=$q.$filtro;
-			$consulta=mysqli_query($conexion,$qfiltro);
-				echo $disponibilidad."</br>";
-				echo $tiporecurso."</br>";
-				echo $qfiltro."</br>";
-				echo $consulta."</br>";
-			}
+				$disponibilidad = $_REQUEST['disponibilidad'];
+				$tiporecurso = $_REQUEST['tiporecurso'];
+
+				if ($disponibilidad != "") {
+			
+					$q .= " WHERE Disponibilidad_Recurso = '$disponibilidad'";
+					$cont = true;
+				}
+
+				if ($tiporecurso!="" && $cont == false) {
+
+					$q .= " WHERE Tipo_Recurso = '$tiporecurso'";
+					$cont = true;
+
+				} elseif ($tiporecurso!="" && $cont == true) {
+
+					$q .= " AND Tipo_Recurso = '$tiporecurso'";
+				}
+
+				
+			
+			} 
+			
+			$consulta=mysqli_query($conexion,$q);
+			
 				while ($valores = mysqli_fetch_array($consulta)) {
-		          	echo '<form action="reservas.php" method="post">';
+		          	echo '<form action="reserva.proc.php" method="get">';
 		          	echo "<div class='todomostrar'>";
 		          	echo "<div class='mostrar'>";
-	    			echo 'Recurso: '.utf8_encode($valores['Nombre_Recurso']).'</br>';
-					echo 'Descripción: '.utf8_encode($valores['Descripcion_Recurso']).'</br>';
-					echo 'Tipo de recurso: '.utf8_encode($valores['Tipo_Recurso']).'</br>';
-					echo 'Disponible: '.utf8_encode($valores['Disponibilidad_Recurso']). '</br></br>';
+	    			echo '<b><u>Recurso:</u></b> '.$valores['Nombre_Recurso'].'</br>';
+					echo '<b><u>Descripción:</u></b> '.$valores['Descripcion_Recurso'].'</br>';
+					echo '<b><u>Tipo de recurso:</u></b> '.$valores['Tipo_Recurso'].'</br>';
+					echo '<b><u>Disponible:</u></b> '.$valores['Disponibilidad_Recurso']. '</br></br>';
 					echo '<img width="300" src="../img/'.$valores['Fotos_Recurso'].'"></br></br>';
 					if($valores['Disponibilidad_Recurso'] == "Si"){
-						echo "<input type='checkbox' name='reserva[]' value='$valores[Id_Recurso]'>Reservar</input></br>";
+						echo "<input type='checkbox' name='reserva[]' value='$valores[Id_Recurso]'><b>Reservar</b></input></br>";
 					}else{
-						echo "<input type='checkbox' name='reserva[]' value='$valores[Id_Recurso]'>Dejar disponible</input></br>";		
+						echo "<input type='checkbox' name='reserva[]' value='$valores[Id_Recurso]'><b>Dejar disponible</b></input></br>";		
 					}
 					echo "</div>";
 					echo "</div>";
 					echo "</div>";
 				}	
-					echo "</br></br><input type='submit' value='Realizar'/>";
+					echo "<div class='mover'>";
+					echo "<input type='submit'class='btn-success' value='Realizar'/>";
+					echo "</div>";
 		 			echo '</form>';	
-		 			echo "<button><a style='text-decoration:none;color:black;(otros)' href='../index.php'>Salir sesión</a></button>";
+		 	
 		?>
 	</body>
 </html>
