@@ -25,11 +25,15 @@ $conexion=mysqli_connect("localhost", "root", "", "1718_projecte_2");
 
 
 				foreach ($reservas as $reserva) {
+
+					//Usamos un foreach por si hay mas de 1 reserva poder reservar/devolver los recursos
 					
 					$q="SELECT `Disponibilidad_Recurso` FROM `tbl_recurso` WHERE `Id_Recurso` = $reserva";
 					$consulta=mysqli_query($conexion,$q);
 
 					$disponibilidad = mysqli_fetch_array($consulta);
+
+					//Filtramos los recursos por disponible Si/No
 
 					if ($disponibilidad['Disponibilidad_Recurso'] == 'Si') {
 
@@ -78,8 +82,8 @@ $conexion=mysqli_connect("localhost", "root", "", "1718_projecte_2");
 						
 
 						//Introducimos un nuevo registro en tbl_reserva_recurso en funcion del array $reservas y tambien recogemos la hora y la fecha del momento en el que se realiza la acción
-						
-						$fechaactual = getdate();
+						$timezone= +1;
+						$fechaactual = gmdate("Y/m/j H:i:s",time() + 3600 * ($timezone+date("")));
 						
 						$q = "UPDATE`tbl_reserva_recurso` SET Fecha_Fin = '$fechaactual[year]-$fechaactual[mon]-$fechaactual[mday] $fechaactual[hours]:$fechaactual[minutes]:$fechaactual[seconds]' WHERE Id_Reserva_Recurso = $id[id]";
 						$insert_reserva=mysqli_query($conexion,$q);

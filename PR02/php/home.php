@@ -1,25 +1,27 @@
 <html>
 	<head>
-		<title></title>
+		<title>Home</title>
 		<meta charset="utf-8"/>
 		<link rel="stylesheet" type="text/css" href="../CSS/diseño.css"/>
 	</head>
 	<body>	
 <?php 
 
-			
+			//Nos conectamos a la base de datos
 				$conexion=mysqli_connect("localhost", "root", "", "1718_projecte_2");
 				$acentos = mysqli_query($conexion, "SET NAMES 'utf8'");
 				if(!$conexion){
+					//Si no nos podemos conectar mostramos un mensaje de error
 				    echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
 				    echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
 				    echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
 				    exit;
 				    } else {
 				    	if (!isset($_REQUEST['user'])) {
+				    		//Prevenimos que el usuario pueda entrar directamente por url a home.php sin pasar por el login
 				    		header('Location: ../index.php');
 				    	}else{
-					//Mostramos los datos.
+						//Recogemos los datos del login.
 						$user=$_REQUEST['user'];
 						$id_user = $_REQUEST['id_user']; 
 						$nombre=("SELECT `Nombre_Usuario`, `Apellido1_Usuario`,`Apellido2_Usuario` FROM tbl_user WHERE Login_Usuario = '$user'");
@@ -31,7 +33,7 @@
 						echo '<h2>Bienvenido '.$valor['Nombre_Usuario'].' '.$valor['Apellido1_Usuario'].' '.$valor['Apellido2_Usuario'].' '.'<button class="btn-success"><a style="text-decoration:none;color:white;(otros)" href="../index.php">Salir sesión</a></button>'.'</h2>';
 						}
 					}
-?>
+?>					<!-- Filtro de recursos -->
 				<form action="home.php" method="POST">
 				<div class="login">
 				<div class="select">
@@ -74,7 +76,7 @@
 <?php
 
 
-				//Filtro
+				//Comprobamos la seleccion de filtros y formamos la consulta
 
 				$q=("SELECT * FROM tbl_recurso");
 				$cont= false;
@@ -130,6 +132,8 @@
 				
 				if (mysqli_num_rows($consulta) == 0) {
 
+					//Si no hay resultados muestra este mensaje
+
 					echo "<div class='nmostrar'><h1>No hay datos que mostrar</h1></div>";
 					
 				}else{
@@ -145,11 +149,15 @@
 						echo "<b>Horas totales de uso:</b> $valores[Uso_Recurso]</br></br>";
 						echo '<img width="300" src="../img/'.$valores['Fotos_Recurso'].'"></br></br>';
 						
+						//Comprobamos la disponibilidad del recurso, para ver si mostramos un boton del checkbox o la fecha de la ultima reserva y el el ultimo usuario que lo ha reservado
+
 						if($valores['Disponibilidad_Recurso'] == "Si"){
 							
 							echo "<input type='checkbox' name='reserva[]' value='$valores[Id_Recurso]'><b>Reservar</b></input></br>";
 							
 						}else {
+
+							//Comprobamos si el usuario conectado es el que ha hecho la reserva para dejar que pueda devolverlo. Si no mostramos la fecha de la reserva y el usuario que la ha hecho
 
 							$q="SELECT * FROM tbl_recurso LEFT JOIN tbl_reserva_recurso ON tbl_recurso.Id_Recurso = tbl_reserva_recurso.Id_Recurso LEFT JOIN tbl_reserva on tbl_reserva.Id_Reserva = tbl_reserva_recurso.Id_Reserva WHERE tbl_reserva_recurso.Fecha_Fin = '' AND tbl_recurso.Id_Recurso = $valores[Id_Recurso]";
 							$consulta_user=mysqli_query($conexion,$q);
@@ -161,6 +169,10 @@
 								
 							}else{
 								echo "<b>Reservado por última vez:</b> $user_log[Fecha_Ini]</br>";
+								$nombre_reserva=("SELECT `Nombre_Usuario`, `Apellido1_Usuario` FROM tbl_user WHERE Id_Usuario = '$user_log[Id_Usuario]'");
+								$consulta_reserva=mysqli_query($conexion,$nombre_reserva);
+								$valor_reserva = mysqli_fetch_array($consulta_reserva);
+								echo "<b>Usuario:</b> $valor_reserva[Nombre_Usuario] $valor_reserva[Apellido1_Usuario]</br>";
 							}
 							
 							
@@ -177,6 +189,7 @@
 						echo "</div>";
 						echo "</div>";
 					}	
+					//Mandamos el login del user  el id por unos campos hidden
 						echo "<div class='mover'>";
 						echo "<input type='hidden' name='user' value='$user'>";
 						echo "<input type='hidden' name='id_user' value='$id_user'>";
