@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title>Login</title>
-	<script src="js/validar_form.js" type="text/javascript" charset="utf-8" async defer></script>
-	<link rel="stylesheet" type="text/css" href="css/login.css"/>
+	<script src="js/funciones.js" type="text/javascript" charset="utf-8" async defer></script>
+	<link rel="stylesheet" type="text/css" href="CSS/login.css"/>
 </head>
 <body>
 
